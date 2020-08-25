@@ -4,6 +4,7 @@
     <p>published: {{ post.published_date }}</p>
   </div>
 
+  <!-- 下記はblog/urls.pyの、name=post_detail のURLを待ち受ける事を意味 -->
   <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
 
   <p>{{ post.text|linebreaksbr }}</p>
