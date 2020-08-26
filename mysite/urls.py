@@ -16,8 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.contrib.auth import views
+
+
 urlpatterns = [
+
     path('admin/', admin.site.urls),
+
+    # ユーザー認証は別途urlをマイサイト側で追記、authのviewと繋ぐのでimportも追記
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    # ログアウト
+    path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+
+
     # これで'http://127.0.0.1:8000/' に来たリクエストは blog.urls へリダイレクトする
     path('', include('blog.urls')),
 ]

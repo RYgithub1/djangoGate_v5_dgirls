@@ -1,11 +1,59 @@
-{% extends 'blog/base.html' %} {% block content %}
-<div class="post">
-  {% if post.published_date %}
-  <div class="date">
-    {{ post.published_date }}
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <div class="post">
+    {% if post.published_date %}
+      <div class="date">
+        {{ post.published_date }}
+      </div>
+    {% else %}
+      <!-- 詳細detailページに、記事投稿ボタン追加 -->
+      <!-- published_dateが存在しない場合ボタン表示 -->
+      <!-- url のキーワード引数である pk に値を渡している -->
+      <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+    {% endif %}
+
+    <!-- ログインユーザーのみ編集ボタン押下可能if -->
+    {% if user.is_authenticated %}
+      <!-- フォームを編集したく追記 -->
+      <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+      <!-- detail個別ページにて削除ボタン追加 -->
+      <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+    {% endif %}
+
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.text|linebreaksbr }}</p>
   </div>
-  {% endif %}
-  <h2>{{ post.title }}</h2>
-  <p>{{ post.text|linebreaksbr }}</p>
-</div>
+
+
+  <!-- hrタグ：ホライズン、水平線の追加 -->
+  <hr />
+  <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
+  <!-- ブログにログインしているユーザが承認したコメントに限って、誰でも見られるように修正 -->
+  <!-- （１）ログインしているユーザは、すべてのコメントが見られる -->
+  <!-- （２）ログインしているユーザは、コメントの承認または削除ができる -->
+  <!-- （３）ログインしていないユーザは、承認されたコメントのみを見られる -->
+  <!-- コメントの管理is_authenticated or approved_comment 追加 = コメントが承認済み か ユーザがログイン認証済みか -->
+  <!-- % for comment in post.comments.all %} -->
+  {% for comment in post.comments.all %}
+    {% if user.is_authenticated or comment.approved_comment %}
+      <div class="comment">
+        <div class="date">
+          {{ comment.created_date }}
+          {% if not comment.approved_comment %}
+            <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+            <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+          {% endif %}
+        </div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+      </div>
+    {% endif %}
+  {% empty %}
+    <!-- empty、forタグでループさせようとした、配列リストが空だった場合に、配下の内容（今回pタグNo Comment..）を表示 -->
+    <p>No comments here yet :(</p>
+  {% endfor %}
 {% endblock %}
+
