@@ -19,9 +19,18 @@ from django.urls import path, include
 from django.contrib.auth import views
 
 
+# from blog.views import SignUp
+from blog.views import SignUp
+
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),
+
+    # サインアップ
+    path('accounts/signup/', SignUp.as_view(), name='signup'),
+
+
 
     # ユーザー認証は別途urlをマイサイト側で追記、authのviewと繋ぐのでimportも追記
     path('accounts/login/', views.LoginView.as_view(), name='login'),

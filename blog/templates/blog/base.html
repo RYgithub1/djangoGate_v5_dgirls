@@ -1,4 +1,5 @@
 {% load static %}
+
 <html>
   <head>
     <title>Django Girls blog</title>
@@ -18,34 +19,35 @@
     <link rel="stylesheet" href="{% static 'css/blog.css' %}" />
   </head>
 
+
   <body>
     <div class="page-header">
       <!-- ログインユーザーのみ投稿可能のif -->
       {% if user.is_authenticated %}
-      <!-- フォーム用のビューpost_newを指定して呼び出す -->
-      <!-- gly...  Bootstrap、プラス記号 -->
-      <a href="{% url 'post_new' %}" class="top-menu"
-        ><span class="glyphicon glyphicon-plus"></span
-      ></a>
-      <!-- 下書き一覧ページのリンク -->
-      <a href="{% url 'post_draft_list' %}" class="top-menu"
-        ><span class="glyphicon glyphicon-edit"></span
-      ></a>
-      <!-- ..ログイン時向けに追加表示... -->
-      <p class="top-menu">
-        Hello {{ user.username }}
-        <small>(<a href="{% url 'logout' %}">Log out</a>)</small>
-      </p>
+        <!-- フォーム用のビューpost_newを指定して呼び出す -->
+        <!-- gly...  Bootstrap、プラス記号 -->
+        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+
+        <!-- 下書き一覧ページのリンク -->
+        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+
+        <!-- ..ログイン時向けに追加表示... -->
+        <p class="top-menu">
+          Hello {{ user.username }}
+          <small>(<a href="{% url 'logout' %}">Log out</a>)</small>
+        </p>
 
       {% else %}
-      <!-- インデックスで、誰もがログインボタンを見れる -->
-      <a href="{% url 'login' %}" class="top-menu"
-        ><span class="glyphicon glyphicon-lock"></span
-      ></a>
+        <!-- インデックスで、誰もがログインボタンを見れる -->
+        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        {% comment %} サインアップの追加 {% endcomment %}
+        <a href="{% url 'signup' %}" class="top-menu"><span class="glyphicon glyphicon-user"></span></a>
+        
       {% endif %}
 
       <h1><a href="/">Django Girls Blog</a></h1>
     </div>
+
     <div class="content container">
       <div class="row">
         <div class="col-md-8">
@@ -53,5 +55,6 @@
         </div>
       </div>
     </div>
+
   </body>
 </html>

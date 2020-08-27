@@ -1,3 +1,12 @@
+# サインアップ
+from django.contrib.auth import login
+# from django.contrib.auth.forms import UserCreationForm
+from .forms import SignupForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+
+
 # (ユーザー)認証用デコレータをimport
 from django.contrib.auth.decorators import login_required
 
@@ -7,6 +16,24 @@ from django.utils import timezone
 from .models import Post, Comment
 
 from .forms import PostForm, CommentForm
+
+
+# サインアップ_c-bata
+class SignUp(CreateView):
+    form_class = SignupForm
+    # form_class = UserCreationForm
+    # template_name = "accounts/signup.html"
+    template_name = "registration/signup.html"
+    # success_url = reverse_lazy('top')
+    success_url = reverse_lazy('post_list')
+
+    def form_valid(self, form):
+        # formの情報を保存
+        user = form.save()
+        # 認証
+        login(self.request, user)
+        self.object = user
+        return HttpResponseRedirect(self.get_success_url())
 
 
 def post_list(request):
