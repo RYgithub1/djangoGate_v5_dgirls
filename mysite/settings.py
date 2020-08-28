@@ -14,7 +14,10 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+# BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -86,6 +89,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'USER': '',
+        # 'PASSWORD': '',
+        # 'Host': '',
+        # 'PORT': '',
     }
 }
 
@@ -132,3 +139,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # ログインページに直接アクセスして、ログインが成功したときにトップレベルのインデックス（ブログのホームページ）にリダイレクト
 LOGIN_REDIRECT_URL = '/'
+
+
+# サムネイルと動画(変更)
+# 127.0.0.1:8000/media/
+MEDIA_URL = '/media/'
+# メディアファイルの格納場所
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

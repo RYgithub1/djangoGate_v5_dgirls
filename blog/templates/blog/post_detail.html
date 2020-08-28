@@ -1,10 +1,14 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 
+
+
   <div class="post">
-    {% if post.published_date %}
+    {% comment %} {% if post.published_date %} {% endcomment %}
+    {% if post.updated_date %}
       <div class="date">
-        {{ post.published_date }}
+        {% comment %} {{ post.published_date }} {% endcomment %}
+        {{ post.updated_date }}
       </div>
     {% else %}
       <!-- 詳細detailページに、記事投稿ボタン追加 -->
@@ -56,5 +60,20 @@
     <p>No comments here yet :(</p>
   {% endfor %}
 
+
+
+  <hr />
+  {% comment %} <h1>{{ video.title }}</h1>
+  <p>{{ video.description }}</p>
+  <p class="text-muted">投稿日: {{ video.created_at }} - 更新日: {{ video.updated_at }}</p>
+  <div class="embed-responsive embed-responsive-16by9">
+    <video controls class="embed-responsive-item" src="{{ video.upload.url }}"></video>
+  </div> {% endcomment %}
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.text }}</p>
+  <p class="text-muted">投稿日: {{ post.created_date }} - 更新日: {{ post.updated_date }}</p>
+  <div class="embed-responsive embed-responsive-16by9">
+    <video controls class="embed-responsive-item" src="{{ post.upload.url }}"></video>
+  </div>
 {% endblock %}
 

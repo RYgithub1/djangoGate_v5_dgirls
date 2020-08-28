@@ -6,11 +6,28 @@
   <!-- {{ form.as_p }}はformタグでラップして中で使うルール -->
   <!-- 保存につなげるため、変数method="POST"を指定する -->
   <!-- method="POST"によってフォームのすべてのフィールドは、submit時に「request.POST」！！ に保持される。params！ -->
-  <form method="POST" class="post-form">
+  <form method="POST" class="post-form" enctype='multipart/form-data'>
     <!-- {% csrf_token %}、一重はcsrf対策に必要、Djangoは必須故ないとForbiddenエラー、フォームへの悪意を防止 -->
-    <!-- {{ form.as_p }} は二重カーリー、フォーム自体を表示 -->
+    <!-- {{ form.as_p }} は二重カーリー、フォーム自体を表示、持ってきたformの形式（中身有り無しの亮パターンの書き方同じ）-->
     {% csrf_token %} {{ form.as_p }}
     <button type="submit" class="save btn btn-default">Save</button>
   </form>
 
 {% endblock %}
+
+
+{% comment %} enctype {% endcomment %}
+{% comment %} <form action="" method="POST" enctype='multipart/form-data'>
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    {% csrf_token %}
+
+
+    <button type="submit" class="btn btn-dark">送信</button>
+</form> {% endcomment %}

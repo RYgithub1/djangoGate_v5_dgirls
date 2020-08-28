@@ -1,10 +1,14 @@
 {% extends 'blog/base.html' %}
-{% block content %}
 
+{% load static%}
+
+{% block content %}
+updated_date更新が古い順にしています（最新程、下に追加していく）
   {% for post in posts %}
     <div class="post">
       <div class="date">
-        <p>published: {{ post.published_date }}</p>
+        {% comment %} <p>published: {{ post.published_date }}</p> {% endcomment %}
+        <p>更新された日: {{ post.updated_date }}</p>
       </div>
 
       <!-- 下記はblog/urls.pyの、name=post_detail のURLを待ち受ける事を意味 -->
@@ -15,8 +19,45 @@
 
       <!-- 投稿一覧ページで、コメント数を訪問者にお知らせ -->
       <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+
+
+      {% comment %} メディア用 {% endcomment %}
+      {% comment %} <a href="{% url 'videos:play' video.pk %}">
+        {% if video.thumbnail %}
+          <img class="img-thumbnail" src="{{ video.thumbnail.url }}" alt="{{ video.title }}">
+        {% else %}
+          <img class="img-thumbnail" src="{% static 'videos/noimage.jpg' %}" alt="{{ video.title }}">
+        {% endif %}
+      </a> {% endcomment %}
+
+      {% comment %} 詳細に飛べればよいのでは・ {% endcomment %}
+      {% comment %} <a href="{% url 'blog:play' post.pk %}"> {% endcomment %}
+      <a href="{% url 'post_detail' pk=post.pk %}">
+        {% if post.thumbnail %}
+          <img class="img-thumbnail" src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+        {% else %}
+          <img class="img-thumbnail" src="{% static 'noThumbnail.jpg' %}" alt="{{ post.title }}">
+        {% endif %}
+      </a>
+
+
     </div>
   {% endfor %}
+
+  {% comment %} <div class="row">
+    {% for video in video_list %}
+      <div class="col-6 col-md-2">
+        <a href="{% url 'videos:play' video.pk %}">
+          {% if video.thumbnail %}
+            <img class="img-thumbnail" src="{{ video.thumbnail.url }}" alt="{{ video.title }}">
+          {% else %}
+            <img class="img-thumbnail" src="{% static 'videos/noimage.jpg' %}" alt="{{ video.title }}">
+          {% endif %}
+        </a>
+        <p class="text-center">{{ video.title }}</p>
+      </div>
+    {% endfor %}
+  </div> {% endcomment %}
 
 {% endblock %}
 

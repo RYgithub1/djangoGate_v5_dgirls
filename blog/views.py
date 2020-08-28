@@ -17,8 +17,16 @@ from .models import Post, Comment
 
 from .forms import PostForm, CommentForm
 
+# メディア用(統合して削除)
+# from django.views import generic
+# from .forms import VideoCreateForm
+# from .models import Video
+# from .models import Post
 
-# サインアップ_c-bata
+# from django.http import HttpResponse
+
+
+# サインアップ系_c-bata
 class SignUp(CreateView):
     form_class = SignupForm
     # form_class = UserCreationForm
@@ -36,10 +44,29 @@ class SignUp(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+# メディア系
+# （不要ーーーーー）
+# class IndexView(generic.ListView):
+#     # model = Video
+#     model = Post
+# class CreateView(generic.CreateView):
+#     # model = Video
+#     model = Post
+#     form_class = VideoCreateForm
+#     # success_url = reverse_lazy('videos:index')
+#     success_url = reverse_lazy('blog:index')
+# （不要ーーーーーー）
+# class PlayView(generic.DetailView):
+#     # model = Video
+#     model = Post
+
+
+# POST系
 def post_list(request):
 
     posts = Post.objects.filter(
-        published_date__lte=timezone.now()).order_by('published_date')
+        # published_date__lte=timezone.now()).order_by('published_date')
+        updated_date__lte=timezone.now()).order_by('updated_date')
 
     return render(request, 'blog/post_list.html', {'posts': posts})
 
@@ -55,11 +82,16 @@ def post_detail(request, pk):
 # form作成時に、投稿postを作成するメソッド
 # forms.pyのPostFormクラスを呼び出すために、上でimport
 def post_new(request):
+    # return HttpResponse("request")
+    # return HttpResponse(form)
 
     # form_edit.htmlでsubmitすると、request.POSTにデータ保持
     # ifフォームを入力してsubmitしたら、変数method="POST"ゆえ、true
+    # 一発目は未入力ゆえelseに流れて入力促すため 、form定義して、form持たせたままpost_edit.htmlに飛ばす
     if request.method == "POST":
-        form = PostForm(request.POST)
+        # form = PostForm(request.POST)
+        # FILESも指定しないと保存できない
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             # save()する前に、ユーザー名と日時を加えたいので、commit=False
             post = form.save(commit=False)
@@ -70,8 +102,10 @@ def post_new(request):
             post.save()
             return redirect('post_detail', pk=post.pk)
     else:
+        # 問答無用でこっち一回目
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
+    # return HttpResponse("???")
 
 
 @login_required
@@ -83,7 +117,7 @@ def post_edit(request, pk):
 
     if request.method == "POST":
         # 【１】フォームを保存する場合request.POST
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -100,7 +134,8 @@ def post_edit(request, pk):
 # ドラフトページ。published_date__isnull=True となる記事)のみ
 def post_draft_list(request):
     posts = Post.objects.filter(
-        published_date__isnull=True).order_by('created_date')
+        # published_date__isnull=True).order_by('created_date')
+        updated_date__isnull=True).order_by('created_date')
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
 

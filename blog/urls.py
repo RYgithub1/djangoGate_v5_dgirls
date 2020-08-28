@@ -34,4 +34,9 @@ urlpatterns = [
     path('comment/<int:pk>/approve/',
          views.comment_approve, name='comment_approve'),
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
+
+    # メディア(post/profileへ統合)
+    #     path('', views.IndexView.as_view(), name='index'),
+    #     path('upload/', views.CreateView.as_view(), name='upload'),
+    #     path('play/<int:pk>/', views.PlayView.as_view(), name='play'),
 ]
