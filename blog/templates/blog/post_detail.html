@@ -63,12 +63,6 @@
 
 
   <hr />
-  {% comment %} <h1>{{ video.title }}</h1>
-  <p>{{ video.description }}</p>
-  <p class="text-muted">投稿日: {{ video.created_at }} - 更新日: {{ video.updated_at }}</p>
-  <div class="embed-responsive embed-responsive-16by9">
-    <video controls class="embed-responsive-item" src="{{ video.upload.url }}"></video>
-  </div> {% endcomment %}
   <h1>{{ post.title }}</h1>
   <p>{{ post.text }}</p>
   <p class="text-muted">投稿日: {{ post.created_date }} - 更新日: {{ post.updated_date }}</p>

@@ -17,14 +17,6 @@ from .models import Post, Comment
 
 from .forms import PostForm, CommentForm
 
-# メディア用(統合して削除)
-# from django.views import generic
-# from .forms import VideoCreateForm
-# from .models import Video
-# from .models import Post
-
-# from django.http import HttpResponse
-
 
 # サインアップ系_c-bata
 class SignUp(CreateView):
@@ -42,23 +34,6 @@ class SignUp(CreateView):
         login(self.request, user)
         self.object = user
         return HttpResponseRedirect(self.get_success_url())
-
-
-# メディア系
-# （不要ーーーーー）
-# class IndexView(generic.ListView):
-#     # model = Video
-#     model = Post
-# class CreateView(generic.CreateView):
-#     # model = Video
-#     model = Post
-#     form_class = VideoCreateForm
-#     # success_url = reverse_lazy('videos:index')
-#     success_url = reverse_lazy('blog:index')
-# （不要ーーーーーー）
-# class PlayView(generic.DetailView):
-#     # model = Video
-#     model = Post
 
 
 # POST系
@@ -82,8 +57,6 @@ def post_detail(request, pk):
 # form作成時に、投稿postを作成するメソッド
 # forms.pyのPostFormクラスを呼び出すために、上でimport
 def post_new(request):
-    # return HttpResponse("request")
-    # return HttpResponse(form)
 
     # form_edit.htmlでsubmitすると、request.POSTにデータ保持
     # ifフォームを入力してsubmitしたら、変数method="POST"ゆえ、true
@@ -105,7 +78,6 @@ def post_new(request):
         # 問答無用でこっち一回目
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
-    # return HttpResponse("???")
 
 
 @login_required
