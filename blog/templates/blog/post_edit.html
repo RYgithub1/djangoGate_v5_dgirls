@@ -1,17 +1,15 @@
-{% extends 'blog/base.html' %}
-{% block content %}
+{% extends 'blog/base.html' %} {% block content %}
 
-  <h2>New post</h2>
+<h2>New post</h2>
 
-  <!-- {{ form.as_p }}はformタグでラップして中で使うルール -->
-  <!-- 保存につなげるため、変数method="POST"を指定する -->
-  <!-- method="POST"によってフォームのすべてのフィールドは、submit時に「request.POST」！！ に保持される。params！ -->
-  <form method="POST" class="post-form" enctype='multipart/form-data'>
-    <!-- {% csrf_token %}、一重はcsrf対策に必要、Djangoは必須故ないとForbiddenエラー、フォームへの悪意を防止 -->
-    <!-- {{ form.as_p }} は二重カーリー、フォーム自体を表示、持ってきたformの形式（中身有り無しの亮パターンの書き方同じ）-->
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="save btn btn-default">Save</button>
-  </form>
+<!-- {{ form.as_p }}はformタグでラップして中で使うルール -->
+<!-- 保存につなげるため、変数method="POST"を指定する -->
+<!-- method="POST"によってフォームのすべてのフィールドは、submit時に「request.POST」！！ に保持される。params！ -->
+<form method="POST" class="post-form" enctype="multipart/form-data">
+  <!-- {% csrf_token %}、一重はcsrf対策に必要、Djangoは必須故ないとForbiddenエラー、フォームへの悪意を防止 -->
+  <!-- {{ form.as_p }} は二重カーリー、フォーム自体を表示、持ってきたformの形式（中身有り無しの亮パターンの書き方同じ）-->
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="save btn btn-default">Save</button>
+</form>
 
 {% endblock %}
-
